@@ -1,0 +1,28 @@
+name: CI
+
+on: push
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Получить код репозитория
+        uses: actions/checkout@v4
+
+      - name: Установить Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "26"
+
+      - name: Установить pnpm
+        run: npm install --global pnpm@11
+
+      - name: Подготовить проект
+        run: make setup
+
+      - name: Проверить код линтером
+        run: make lint
+
+      - name: Запустить тесты
+        run: make test
